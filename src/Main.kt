@@ -1,3 +1,2 @@
-fun main (args: Array<String>) {
-    println("RCTools");
+class Main {
 }
