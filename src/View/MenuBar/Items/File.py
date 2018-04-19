@@ -1,12 +1,16 @@
 from tkinter import Menu, Toplevel, Button
 
+from Utils.FileUtils import FileUtils
+from View.General.FileSelector import FileSelector
+
 
 class File:
 
-    def __init__(self, menu_bar):
+    def __init__(self, root, menu_bar):
+        self.root = root
         self.file_menu = Menu(menu_bar, tearoff=0)
         self.file_menu.add_command(label="New", command=self.do_nothing)
-        self.file_menu.add_command(label="Open", command=self.do_nothing)
+        self.file_menu.add_command(label="Open", command=self.open_file_selector)
         self.file_menu.add_command(label="Save", command=self.do_nothing)
         self.file_menu.add_command(label="Save as...", command=self.do_nothing)
         self.file_menu.add_command(label="Close", command=self.do_nothing)
@@ -14,8 +18,12 @@ class File:
         self.file_menu.add_command(label="Exit", command=self.do_nothing)
         menu_bar.add_cascade(label="File", menu=self.file_menu)
 
+    def open_file_selector(self):
+        file_selector = FileSelector()
+        file_name = file_selector.open()
+        if (file_name):
+            FileUtils.open_picture_finder(self.root, file_name)
+
+
     def do_nothing(self):
-        print("File function")
-        # file_win = Toplevel(root)
-        # button = Button(file_win, text="Do nothing button")
-        # button.pack()
+        pass

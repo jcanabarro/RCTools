@@ -1,5 +1,14 @@
+import tkinter as tk
 from View.MainActivity import MainActivity
+from View.MenuBar.MenuBar import MenuBar
 
-main_activity = MainActivity()
+root = tk.Tk()
 
-main_activity.show()
+main = MainActivity(root)
+main.pack(side="top", fill="both", expand=True)
+
+root.title("RCTools")
+
+MenuBar(root)
+
+root.mainloop()

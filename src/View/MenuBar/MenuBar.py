@@ -11,7 +11,7 @@ class MenuBar:
 
     def __init__(self, root):
         self.menu_bar = Menu(root)
-        File(self.menu_bar)
+        File(root, self.menu_bar)
         Edit(self.menu_bar)
         Help(self.menu_bar)
         root.config(menu=self.menu_bar)
