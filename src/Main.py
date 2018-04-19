@@ -9,6 +9,6 @@ main.pack(side="top", fill="both", expand=True)
 
 root.title("RCTools")
 
-MenuBar(root)
+MenuBar(main, root)
 
 root.mainloop()

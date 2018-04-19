@@ -1,7 +1,6 @@
 import tkinter as tk
 
 class PhotoView:
-    def __init__(self, root, image):
-        top_level = tk.Toplevel(self)
-        self.panel = tk.Label(top_level, image=image)
-        self.panel.pack(side="bottom", fill="both", expand="yes")
+    def __init__(self, main, image):
+        window = main.create_image_window(image)
+        # self.panel = tk.Label(top_level, image=image)

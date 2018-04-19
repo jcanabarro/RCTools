@@ -9,9 +9,9 @@ from View.MenuBar.Items.Help import Help
 
 class MenuBar:
 
-    def __init__(self, root):
+    def __init__(self, main, root):
         self.menu_bar = Menu(root)
-        File(root, self.menu_bar)
+        File(main, self.menu_bar)
         Edit(self.menu_bar)
         Help(self.menu_bar)
         root.config(menu=self.menu_bar)
