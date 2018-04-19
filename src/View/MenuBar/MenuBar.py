@@ -1,7 +1,9 @@
 from tkinter import Menu
 
-from View.MenuBar.Items.Edit import Edit
 from View.MenuBar.Items.File import File
+
+from View.MenuBar.Items.Edit import Edit
+
 from View.MenuBar.Items.Help import Help
 
 
