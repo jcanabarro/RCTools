@@ -4,20 +4,27 @@ function selectFile() {
 
 function onSelectFile() {
   let name = document.getElementById('file-input');
-  let canvas = document.getElementById('canvas-img');
   if (name.files && name.files.item(0)) {
-    openFile(name, canvas);
+    openFile(name);
   }
 }
 
-function openFile(file, canvas) {
-  let img = new SimpleImage(file);
-  preloader.style.display = '';
-  setTimeout(function() {
-    img.drawTo(canvas);
-    preloader.style.display = 'none';
-    canvas.style.display = '';
-  }, 500);
+function openFile(file) {
+  img = new SimpleImage(file);
+  preloaderSpinner.style.display = '';
+  setTimeout(drawImage, 1000);
+}
+
+function drawImage() {
+  img.drawTo(canvas);
+  preloaderSpinner.style.display = 'none';
+  canvas.style.display = '';
+}
+
+function reshapePicture() {
+  let width = widthInput.value;
+  let height = heightInput.value;
+  console.log('Will reshape to ' + width + 'x' + height + '.');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -44,8 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  preloader = document.getElementById('preloader');
-  preloader.style.display = 'none';
+  preloaderSpinner = document.getElementById('preloader');
+  preloaderSpinner.style.display = 'none';
 
   canvas = document.getElementById('canvas-img');
   canvas.style.display = 'none';
@@ -53,10 +60,24 @@ document.addEventListener('DOMContentLoaded', function() {
   fileSelector = document.getElementById('file-input');
   fileSelector.style.display = 'none';
   fileSelector.addEventListener('change', onSelectFile);
+
+  widthInput = document.getElementById('width');
+  heightInput = document.getElementById('height');
+
+  reshapeBtn = document.getElementById('reshape');
+  reshapeBtn.addEventListener('click', reshapePicture);
 });
 
-let preloader = null;
+let preloaderSpinner = null;
 
 let canvas = null;
 
 let fileSelector = null;
+
+let widthInput = null;
+
+let heightInput = null;
+
+let reshapeBtn = null;
+
+let img = null;
