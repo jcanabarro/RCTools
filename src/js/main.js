@@ -27,6 +27,12 @@ function reshapePicture() {
   console.log('Will reshape to ' + width + 'x' + height + '.');
 }
 
+function onChangeMethod() {
+  let selectedMethod = this.options[this.selectedIndex].value;
+  selectedMethod == KNN ? knnMatrix.style.display = '' : knnMatrix.style.display = 'none';
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
   let elements = document.querySelectorAll('.fixed-action-btn');
   let instances = M.FloatingActionButton.init(elements, {
@@ -40,6 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
   let instances = M.Modal.init(elements, {
     inDuration: 300,
   });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  let elements = document.querySelectorAll('select');
+  let instances = M.FormSelect.init(elements, {});
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -66,6 +77,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   reshapeBtn = document.getElementById('reshape');
   reshapeBtn.addEventListener('click', reshapePicture);
+
+  methodCombo = document.getElementById('method');
+  methodCombo.addEventListener('change', onChangeMethod);
+
+  knnMatrix = document.getElementById('matrix');
+  knnMatrix.style.display = 'none'
+
 });
 
 let preloaderSpinner = null;
@@ -81,3 +99,11 @@ let heightInput = null;
 let reshapeBtn = null;
 
 let img = null;
+
+let methodCombo = null;
+
+let knnMatrix = null;
+
+const KNN = 1;
+
+const INTERPOLATION = 2;
