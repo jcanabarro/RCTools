@@ -19,10 +19,10 @@
     <div class="progress" id="preloader">
         <div class="indeterminate"></div>
     </div>
-    <div id="modal-reshape" class="modal">
+    <div id="modal-resample" class="modal">
         <div class="modal-content">
-            <h4>Reshape</h4>
-            <p>Define the parameters for reshaping</p>
+            <h4>Resample</h4>
+            <p>Define the parameters for resampling</p>
             <div class="row">
                 <form class="col s12">
                     <div class="row">
@@ -34,28 +34,6 @@
                             </select>
                             <label for="method">Select Method</label>
                         </div>
-                    </div>
-                    <div class="row">
-                        <table class="responsive-table" id="matrix">
-                            <tbody>
-                            <tr>
-                                <td class="input-field">
-                                    <input type="number">
-                                </td>
-                                <td class="input-field">
-                                    <input type="number">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="input-field">
-                                    <input type="number">
-                                </td>
-                                <td class="input-field">
-                                    <input type="number">
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
@@ -74,7 +52,7 @@
             <a class="modal-close waves-effect waves-light btn red">
                 Cancel
             </a>
-            <a class="modal-close waves-effect waves-light btn green" id="reshape">
+            <a class="modal-close waves-effect waves-light btn green" id="resample">
                 OK
             </a>
         </div>
@@ -103,8 +81,8 @@
                 </a>
             </li>
             <li>
-                <a class="btn-floating red modal-trigger tooltipped" data-target="modal-reshape" data-position="left"
-                   data-tooltip="Reshape" data-delay="50">
+                <a class="btn-floating red modal-trigger tooltipped" data-target="modal-resample" data-position="left"
+                   data-tooltip="Resample" data-delay="50">
                     <i class="material-icons">
                         brightness_high
                     </i>

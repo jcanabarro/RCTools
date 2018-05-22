@@ -21,15 +21,14 @@ function drawImage() {
   canvas.style.display = '';
 }
 
-function reshapePicture() {
+function resamplePicture() {
   let width = widthInput.value;
   let height = heightInput.value;
-  console.log('Will reshape to ' + width + 'x' + height + '.');
+  console.log('Will resample to ' + width + 'x' + height + '.');
 }
 
 function onChangeMethod() {
   let selectedMethod = this.options[this.selectedIndex].value;
-  selectedMethod == KNN ? knnMatrix.style.display = '' : knnMatrix.style.display = 'none';
 }
 
 
@@ -75,14 +74,11 @@ document.addEventListener('DOMContentLoaded', function() {
   widthInput = document.getElementById('width');
   heightInput = document.getElementById('height');
 
-  reshapeBtn = document.getElementById('reshape');
-  reshapeBtn.addEventListener('click', reshapePicture);
+  resampleBtn = document.getElementById('resample');
+  resampleBtn.addEventListener('click', resamplePicture);
 
   methodCombo = document.getElementById('method');
   methodCombo.addEventListener('change', onChangeMethod);
-
-  knnMatrix = document.getElementById('matrix');
-  knnMatrix.style.display = 'none'
 
 });
 
@@ -96,13 +92,11 @@ let widthInput = null;
 
 let heightInput = null;
 
-let reshapeBtn = null;
+let resampleBtn = null;
 
 let img = null;
 
 let methodCombo = null;
-
-let knnMatrix = null;
 
 const KNN = 1;
 
