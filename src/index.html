@@ -57,6 +57,27 @@
             </a>
         </div>
     </div>
+    <div id="modal-about" class="modal">
+        <div class="modal-content">
+            <h4>About</h4>
+            <p>RCTools 1.0</p>
+            <div class="row">
+                <ul class="collection">
+                    <li class="collection-item">JOÃO VICTOR CANABARRO</li>
+                    <li class="collection-item">LUIZ GUILHERME FONSECA ROSA</li>
+                    <li class="collection-item">PROF. ADAIR SANTA CATARINA</li>
+                </ul>
+            </div>
+            <div class="row">
+                <p>UNIOESTE, 2018</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-close waves-effect waves-light btn green">
+                OK
+            </a>
+        </div>
+    </div>
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large blue-grey darken-1 pulse">
             <i class="large material-icons">
@@ -97,7 +118,8 @@
                 </a>
             </li>
             <li>
-                <a class="btn-floating blue tooltipped" data-tooltip="About" data-position="left" data-delay="50">
+                <a class="btn-floating blue modal-trigger tooltipped" data-target="modal-about" data-tooltip="About"
+                   data-position="left" data-delay="50">
                     <i class="material-icons">
                         announcement
                     </i>
