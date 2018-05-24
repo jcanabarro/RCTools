@@ -52,7 +52,7 @@
             <a class="modal-close waves-effect waves-light btn red">
                 Cancel
             </a>
-            <a class="modal-close waves-effect waves-light btn green" id="resample">
+            <a class="modal-close waves-effect waves-light btn green" id="confirm-resample">
                 OK
             </a>
         </div>
@@ -87,31 +87,31 @@
         <ul>
             <li>
                 <a class="btn-floating green tooltipped" data-tooltip="Open picture" data-position="left"
-                   data-delay="50" onclick="selectFile()">
+                   data-delay="50" onclick="selectFile()" id="upload-btn">
                     <i class="material-icons">
                         file_upload
                     </i>
                 </a>
             </li>
             <li>
-                <a class="btn-floating yellow darken-1 tooltipped" data-tooltip="Download result" data-position="left"
-                   data-delay="50">
+                <a class="btn-floating yellow darken-1 tooltipped disabled" data-tooltip="Download result"
+                   data-position="left" data-delay="50" id="download-btn">
                     <i class="material-icons">
                         file_download
                     </i>
                 </a>
             </li>
             <li>
-                <a class="btn-floating red modal-trigger tooltipped" data-target="modal-resample" data-position="left"
-                   data-tooltip="Resample" data-delay="50">
+                <a class="btn-floating red modal-trigger tooltipped disabled" data-target="modal-resample"
+                   data-position="left" data-tooltip="Resample" data-delay="50" id="resample-btn">
                     <i class="material-icons">
                         brightness_high
                     </i>
                 </a>
             </li>
             <li>
-                <a class="btn-floating purple tooltipped" data-tooltip="Undo all" data-position="left"
-                   data-delay="50">
+                <a class="btn-floating purple tooltipped disabled" data-tooltip="Undo all" data-position="left"
+                   data-delay="50" id="undo-btn">
                     <i class="material-icons">
                         restore
                     </i>
@@ -119,7 +119,7 @@
             </li>
             <li>
                 <a class="btn-floating blue modal-trigger tooltipped" data-target="modal-about" data-tooltip="About"
-                   data-position="left" data-delay="50">
+                   data-position="left" data-delay="50" id="about-btn">
                     <i class="material-icons">
                         announcement
                     </i>
