@@ -22,6 +22,7 @@ function drawImage () {
 function resamplePicture () {
   let width = widthInput.value
   let height = heightInput.value
+  resampled = new SimpleImage(width, height)
 }
 
 function onChangeMethod () {
@@ -133,6 +134,8 @@ let aboutBtn = null
 // Img
 
 let img = null
+
+let resampled = null
 
 // Method
 
