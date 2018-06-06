@@ -22,16 +22,44 @@ function drawImage () {
 function resamplePicture () {
   let width = widthInput.value || img.width
   let height = heightInput.value || img.height
-  resampled = new SimpleImage(width, height)
-  onImageResampled(resampled)
+  if (selectedMethod === KNN) {
+    resampled = kNearestNeighbor(width, height);
+  } else if (selectedMethod === INTERPOLATION) {
+    resampled = interpolation(width, height);
+  }
+  onImageResampled()
+}
+
+function kNearestNeighbor(targetWidth, targetHeight) {
+  const next = new SimpleImage(targetWidth, targetHeight)
+  let relativePosition = {
+      x: 0,
+      y: 0
+  }
+  for (let i = 0; i < targetHeight; i++ ){
+    relativePosition.y = (i / targetHeight) * img.height;
+    relativePosition.y = Math.floor(relativePosition.y)
+    for (let j = 0; j < targetWidth; j++){
+      relativePosition.x = (j / targetWidth) * img.width;
+      relativePosition.x = Math.floor(relativePosition.x)
+      next.setPixel(j, i, img.getPixel(relativePosition.x, relativePosition.y))
+    }
+  }
+  return next
+}
+
+function interpolation (width, height) {
+  const next = new SimpleImage(width, height)
+  return next
 }
 
 function onChangeMethod () {
-  let selectedMethod = this.options[this.selectedIndex].value
+  selectedMethod = this.options[this.selectedIndex].value
 }
 
 function onImageOpened () {
   drawImage()
+  original = img
   M.toast({html: 'File opened.' + img.width + 'x' + img.height})
   preloaderSpinner.style.display = 'none'
   canvas.style.display = ''
@@ -40,9 +68,8 @@ function onImageOpened () {
   resampleBtn.classList.remove('disabled')
 }
 
-function onImageResampled (nextImage) {
-  original = img
-  img = nextImage
+function onImageResampled () {
+  img = resampled
   drawImage()
 }
 
@@ -158,9 +185,11 @@ let resampled = null
 
 // Method
 
-const KNN = 1
+const KNN = '1'
 
-const INTERPOLATION = 2
+let selectedMethod = KNN;
+
+const INTERPOLATION = '2'
 
 // File
 
