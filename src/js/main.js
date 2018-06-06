@@ -20,9 +20,10 @@ function drawImage () {
 }
 
 function resamplePicture () {
-  let width = widthInput.value
-  let height = heightInput.value
+  let width = widthInput.value || img.width
+  let height = heightInput.value || img.height
   resampled = new SimpleImage(width, height)
+  onImageResampled(resampled)
 }
 
 function onChangeMethod () {
@@ -37,6 +38,19 @@ function onImageOpened () {
   downloadBtn.classList.remove('disabled')
   undoAllBtn.classList.remove('disabled')
   resampleBtn.classList.remove('disabled')
+}
+
+function onImageResampled (nextImage) {
+  original = img
+  img = nextImage
+  drawImage()
+}
+
+function undoAll () {
+  if (original !== null) {
+    img = original
+    drawImage()
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -101,6 +115,9 @@ document.addEventListener('DOMContentLoaded', function () {
   aboutBtn = document.getElementById('about-btn')
   resampleBtn = document.getElementById('resample-btn')
 
+  // Undo
+  undoAllBtn.addEventListener('click', undoAll)
+
 })
 
 // General/UI
@@ -134,6 +151,8 @@ let aboutBtn = null
 // Img
 
 let img = null
+
+let original = null
 
 let resampled = null
 
