@@ -16,6 +16,7 @@ function openFile (file) {
 }
 
 function drawImage () {
+  setCanvasContainerDimensions()
   img.drawTo(canvas)
 }
 
@@ -64,6 +65,7 @@ function onChangeMethod () {
 
 function onStartLoading () {
   canvas.style.display = 'none'
+  canvasContainer.style.display = 'none'
   preloaderSpinner.style.display = ''
   downloadBtn.classList.add('disabled')
   undoAllBtn.classList.add('disabled')
@@ -72,6 +74,7 @@ function onStartLoading () {
 
 function onEndLoading () {
   preloaderSpinner.style.display = 'none'
+  canvasContainer.style.display = ''
   canvas.style.display = ''
   downloadBtn.classList.remove('disabled')
   undoAllBtn.classList.remove('disabled')
@@ -105,6 +108,13 @@ function downloadResult () {
   }
 }
 
+function setCanvasContainerDimensions () {
+  const maxWidth = window.innerWidth - 400
+  const maxHeight = window.innerHeight - 100
+  canvasContainer.style.width = maxWidth + 'px'
+  canvasContainer.style.height = maxHeight + 'px'
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   // UI
   preloaderSpinner = document.getElementById('preloader')
@@ -112,6 +122,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   canvas = document.getElementById('canvas-img')
   canvas.style.display = 'none'
+
+  canvasContainer = document.getElementById('canvas-container')
+
+  canvasContainer.style.overflow = 'scroll'
+  canvasContainer.style.display = 'none'
+
+  canvasContainer.style.backgroundImage = 'url(assets/bg-transp.png)'
+  canvasContainer.style.backgroundRepeat = 'repeat'
 
   // File
   fileSelector = document.getElementById('file-input')
@@ -180,6 +198,8 @@ document.addEventListener('DOMContentLoaded', function () {
 let preloaderSpinner = null
 
 let canvas = null
+
+let canvasContainer = null
 
 // Resample Inputs
 
