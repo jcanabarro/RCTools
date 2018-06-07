@@ -11,7 +11,7 @@ function onSelectFile () {
 
 function openFile (file) {
   img = new SimpleImage(file)
-  preloaderSpinner.style.display = ''
+  onStartLoading()
   setTimeout(onImageOpened, 1000)
 }
 
@@ -23,14 +23,14 @@ function resamplePicture () {
   let width = widthInput.value || img.width
   let height = heightInput.value || img.height
   if (selectedMethod === KNN) {
-    resampled = kNearestNeighbor(width, height)
+    kNearestNeighbor(width, height)
   } else if (selectedMethod === INTERPOLATION) {
-    resampled = interpolation(width, height)
+    interpolation(width, height)
   }
-  onImageResampled()
 }
 
 function kNearestNeighbor (targetWidth, targetHeight) {
+  onStartLoading()
   const next = new SimpleImage(targetWidth, targetHeight)
   let relativeX = 0
   let relativeY = 0
@@ -41,22 +41,36 @@ function kNearestNeighbor (targetWidth, targetHeight) {
       next.setPixel(x, y, img.getPixel(relativeX, relativeY))
     }
   }
-  return next
+
+  setTimeout(function () {
+    onEndLoading()
+    onImageResampled(next)
+  }, 1000)
 }
 
 function interpolation (width, height) {
+  onStartLoading()
   const next = new SimpleImage(width, height)
-  return next
+  //
+  setTimeout(function () {
+    onEndLoading()
+    onImageResampled(next)
+  }, 1000)
 }
 
 function onChangeMethod () {
   selectedMethod = this.options[this.selectedIndex].value
 }
 
-function onImageOpened () {
-  drawImage()
-  original = img
-  M.toast({html: 'File opened.' + img.width + 'x' + img.height})
+function onStartLoading () {
+  canvas.style.display = 'none'
+  preloaderSpinner.style.display = ''
+  downloadBtn.classList.add('disabled')
+  undoAllBtn.classList.add('disabled')
+  resampleBtn.classList.add('disabled')
+}
+
+function onEndLoading () {
   preloaderSpinner.style.display = 'none'
   canvas.style.display = ''
   downloadBtn.classList.remove('disabled')
@@ -64,8 +78,15 @@ function onImageOpened () {
   resampleBtn.classList.remove('disabled')
 }
 
-function onImageResampled () {
-  img = resampled
+function onImageOpened () {
+  drawImage()
+  original = img
+  M.toast({html: 'File opened.' + img.width + 'x' + img.height})
+  onEndLoading()
+}
+
+function onImageResampled (next) {
+  img = next
   drawImage()
 }
 
@@ -187,8 +208,6 @@ let aboutBtn = null
 let img = null
 
 let original = null
-
-let resampled = null
 
 // Method
 
