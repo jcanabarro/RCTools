@@ -20,7 +20,8 @@ function drawImage () {
   img.drawTo(canvas)
 }
 
-function resamplePicture () {
+function resamplePicture (e) {
+  e.preventDefault()
   let width = widthInput.value || img.width
   let height = heightInput.value || img.height
   if (selectedMethod === KNN) {
