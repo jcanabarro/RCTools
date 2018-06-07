@@ -23,26 +23,22 @@ function resamplePicture () {
   let width = widthInput.value || img.width
   let height = heightInput.value || img.height
   if (selectedMethod === KNN) {
-    resampled = kNearestNeighbor(width, height);
+    resampled = kNearestNeighbor(width, height)
   } else if (selectedMethod === INTERPOLATION) {
-    resampled = interpolation(width, height);
+    resampled = interpolation(width, height)
   }
   onImageResampled()
 }
 
-function kNearestNeighbor(targetWidth, targetHeight) {
+function kNearestNeighbor (targetWidth, targetHeight) {
   const next = new SimpleImage(targetWidth, targetHeight)
-  let relativePosition = {
-      x: 0,
-      y: 0
-  }
-  for (let i = 0; i < targetHeight; i++ ){
-    relativePosition.y = (i / targetHeight) * img.height;
-    relativePosition.y = Math.floor(relativePosition.y)
-    for (let j = 0; j < targetWidth; j++){
-      relativePosition.x = (j / targetWidth) * img.width;
-      relativePosition.x = Math.floor(relativePosition.x)
-      next.setPixel(j, i, img.getPixel(relativePosition.x, relativePosition.y))
+  let relativeX = 0
+  let relativeY = 0
+  for (let y = 0; y < targetHeight; y++) {
+    relativeY = Math.floor((y / targetHeight) * img.height)
+    for (let x = 0; x < targetWidth; x++) {
+      relativeX = Math.floor((x / targetWidth) * img.width)
+      next.setPixel(x, y, img.getPixel(relativeX, relativeY))
     }
   }
   return next
@@ -80,6 +76,56 @@ function undoAll () {
   }
 }
 
+function downloadResult () {
+  if (img !== null) {
+    downloadAnchor.href = canvas.toDataURL('image/png')
+      .replace('image/png', 'image/octet-stream')
+    downloadAnchor.click()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // UI
+  preloaderSpinner = document.getElementById('preloader')
+  preloaderSpinner.style.display = 'none'
+
+  canvas = document.getElementById('canvas-img')
+  canvas.style.display = 'none'
+
+  // File
+  fileSelector = document.getElementById('file-input')
+  fileSelector.style.display = 'none'
+  fileSelector.addEventListener('change', onSelectFile)
+
+  // Resample
+  widthInput = document.getElementById('width')
+  heightInput = document.getElementById('height')
+
+  confirmResampleBtn = document.getElementById('confirm-resample')
+  confirmResampleBtn.addEventListener('click', resamplePicture)
+
+  methodCombo = document.getElementById('method')
+  methodCombo.addEventListener('change', onChangeMethod)
+
+  // Menu
+  uploadBtn = document.getElementById('upload-btn')
+  downloadBtn = document.getElementById('download-btn')
+  undoAllBtn = document.getElementById('undo-btn')
+  aboutBtn = document.getElementById('about-btn')
+  resampleBtn = document.getElementById('resample-btn')
+
+  // Undo
+  undoAllBtn.addEventListener('click', undoAll)
+
+  // Download
+  downloadAnchor = document.getElementById('download')
+  downloadAnchor.style.display = 'none'
+  downloadBtn.addEventListener('click', downloadResult)
+
+})
+
+// Materialize
+
 document.addEventListener('DOMContentLoaded', function () {
   let elements = document.querySelectorAll('.fixed-action-btn')
   M.FloatingActionButton.init(elements, {
@@ -106,45 +152,6 @@ document.addEventListener('DOMContentLoaded', function () {
     enterDelay: 300,
     delay: 50,
   })
-})
-
-document.addEventListener('DOMContentLoaded', function () {
-  // UI
-
-  preloaderSpinner = document.getElementById('preloader')
-  preloaderSpinner.style.display = 'none'
-
-  canvas = document.getElementById('canvas-img')
-  canvas.style.display = 'none'
-
-  // File
-
-  fileSelector = document.getElementById('file-input')
-  fileSelector.style.display = 'none'
-  fileSelector.addEventListener('change', onSelectFile)
-
-  // Resample
-
-  widthInput = document.getElementById('width')
-  heightInput = document.getElementById('height')
-
-  confirmResampleBtn = document.getElementById('confirm-resample')
-  confirmResampleBtn.addEventListener('click', resamplePicture)
-
-  methodCombo = document.getElementById('method')
-  methodCombo.addEventListener('change', onChangeMethod)
-
-  // Menu
-
-  uploadBtn = document.getElementById('upload-btn')
-  downloadBtn = document.getElementById('download-btn')
-  undoAllBtn = document.getElementById('undo-btn')
-  aboutBtn = document.getElementById('about-btn')
-  resampleBtn = document.getElementById('resample-btn')
-
-  // Undo
-  undoAllBtn.addEventListener('click', undoAll)
-
 })
 
 // General/UI
@@ -187,10 +194,14 @@ let resampled = null
 
 const KNN = '1'
 
-let selectedMethod = KNN;
+let selectedMethod = KNN
 
 const INTERPOLATION = '2'
 
 // File
 
 let fileSelector = null
+
+// Download
+
+let downloadAnchor = null
