@@ -61,20 +61,23 @@ function interpolation (targetWidth, targetHeight) {
       const relativePixelD = img.getPixel(Math.ceil(relativeX), Math.ceil(relativeY))
       const relativeXDecimals = relativeX - Math.floor(relativeX)
       const relativeXDecimalsComplement = 1 - relativeXDecimals
+      const relativeYDecimals = relativeY - Math.floor(relativeY)
+      const relativeYDecimalsComplement = 1 - relativeYDecimals
+
       // Red
       const redDeltaX = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelA.getRed(), relativePixelB.getRed())
       const redDeltaY = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelC.getRed(), relativePixelD.getRed())
-      const nextRed = relativeXDecimalsComplement * redDeltaX + relativeXDecimals * redDeltaY
+      const nextRed = relativeYDecimalsComplement * redDeltaX + relativeYDecimals * redDeltaY
       next.setRed(x, y, nextRed)
       // Green
       const greenDeltaX = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelA.getGreen(), relativePixelB.getGreen())
       const greenDeltaY = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelC.getGreen(), relativePixelD.getGreen())
-      const nextGreen = relativeXDecimalsComplement * greenDeltaX + relativeXDecimals * greenDeltaY
+      const nextGreen = relativeYDecimalsComplement * greenDeltaX + relativeYDecimals * greenDeltaY
       next.setGreen(x, y, nextGreen)
       // Blue
       const blueDeltaX = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelA.getBlue(), relativePixelB.getBlue())
       const blueDeltaY = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelC.getBlue(), relativePixelD.getBlue())
-      const nextBlue = relativeXDecimalsComplement * blueDeltaX + relativeXDecimals * blueDeltaY
+      const nextBlue = relativeYDecimalsComplement * blueDeltaX + relativeYDecimals * blueDeltaY
       next.setBlue(x, y, nextBlue)
     }
   }
