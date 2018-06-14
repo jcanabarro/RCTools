@@ -46,9 +46,44 @@ function kNearestNeighbor (targetWidth, targetHeight) {
   }, 1000)
 }
 
+function f () {
+  
+}
+
 function interpolation (targetWidth, targetHeight) {
   onStartLoading()
   const next = new SimpleImage(targetWidth, targetHeight)
+  let relativeX = 0
+  let relativeY = 0
+  let deltaX = 0
+  let deltaY = 0
+  let result = 0
+  for (let y = 0; y < targetHeight; y++) {
+    relativeY = (y / targetHeight) * (img.height - 1)
+    for (let x = 0; x < targetWidth; x++) {
+      relativeX = (x / targetWidth) * (img.width - 1)
+      deltaX = (1 - (relativeX - Math.floor(relativeX))) * img.getRed(Math.floor(relativeX), Math.floor(relativeY)) +
+        (relativeX - Math.floor(relativeX)) * img.getRed(Math.ceil(relativeX), Math.floor(relativeY))
+      deltaY = (1 - (relativeX - Math.floor(relativeX))) * img.getRed(Math.floor(relativeX), Math.ceil(relativeY)) +
+        (relativeX - Math.floor(relativeX)) * img.getRed(Math.ceil(relativeX), Math.ceil(relativeY))
+      result = (1 - (relativeX - Math.floor(relativeX))) * deltaX + (relativeX - Math.floor(relativeX)) * deltaY
+      next.setRed(x, y, result)
+      relativeX = (x / targetWidth) * (img.width - 1)
+      deltaX = (1 - (relativeX - Math.floor(relativeX))) * img.getBlue(Math.floor(relativeX), Math.floor(relativeY)) +
+        (relativeX - Math.floor(relativeX)) * img.getBlue(Math.ceil(relativeX), Math.floor(relativeY))
+      deltaY = (1 - (relativeX - Math.floor(relativeX))) * img.getBlue(Math.floor(relativeX), Math.ceil(relativeY)) +
+        (relativeX - Math.floor(relativeX)) * img.getBlue(Math.ceil(relativeX), Math.ceil(relativeY))
+      result = (1 - (relativeX - Math.floor(relativeX))) * deltaX + (relativeX - Math.floor(relativeX)) * deltaY
+      next.setBlue(x, y, result)
+      relativeX = (x / targetWidth) * (img.width - 1)
+      deltaX = (1 - (relativeX - Math.floor(relativeX))) * img.getGreen(Math.floor(relativeX), Math.floor(relativeY)) +
+        (relativeX - Math.floor(relativeX)) * img.getGreen(Math.ceil(relativeX), Math.floor(relativeY))
+      deltaY = (1 - (relativeX - Math.floor(relativeX))) * img.getGreen(Math.floor(relativeX), Math.ceil(relativeY)) +
+        (relativeX - Math.floor(relativeX)) * img.getGreen(Math.ceil(relativeX), Math.ceil(relativeY))
+      result = (1 - (relativeX - Math.floor(relativeX))) * deltaX + (relativeX - Math.floor(relativeX)) * deltaY
+      next.setGreen(x, y, result)
+    }
+  }
 
   setTimeout(function () {
     onEndLoading()
@@ -230,9 +265,9 @@ let original = null
 
 const KNN = '1'
 
-let selectedMethod = KNN
-
 const INTERPOLATION = '2'
+
+let selectedMethod = INTERPOLATION
 
 // File
 
