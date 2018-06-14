@@ -46,42 +46,36 @@ function kNearestNeighbor (targetWidth, targetHeight) {
   }, 1000)
 }
 
-function f () {
-  
-}
-
 function interpolation (targetWidth, targetHeight) {
   onStartLoading()
   const next = new SimpleImage(targetWidth, targetHeight)
   let relativeX = 0
   let relativeY = 0
-  let deltaX = 0
-  let deltaY = 0
-  let result = 0
   for (let y = 0; y < targetHeight; y++) {
     relativeY = (y / targetHeight) * (img.height - 1)
     for (let x = 0; x < targetWidth; x++) {
       relativeX = (x / targetWidth) * (img.width - 1)
-      deltaX = (1 - (relativeX - Math.floor(relativeX))) * img.getRed(Math.floor(relativeX), Math.floor(relativeY)) +
-        (relativeX - Math.floor(relativeX)) * img.getRed(Math.ceil(relativeX), Math.floor(relativeY))
-      deltaY = (1 - (relativeX - Math.floor(relativeX))) * img.getRed(Math.floor(relativeX), Math.ceil(relativeY)) +
-        (relativeX - Math.floor(relativeX)) * img.getRed(Math.ceil(relativeX), Math.ceil(relativeY))
-      result = (1 - (relativeX - Math.floor(relativeX))) * deltaX + (relativeX - Math.floor(relativeX)) * deltaY
-      next.setRed(x, y, result)
-      relativeX = (x / targetWidth) * (img.width - 1)
-      deltaX = (1 - (relativeX - Math.floor(relativeX))) * img.getBlue(Math.floor(relativeX), Math.floor(relativeY)) +
-        (relativeX - Math.floor(relativeX)) * img.getBlue(Math.ceil(relativeX), Math.floor(relativeY))
-      deltaY = (1 - (relativeX - Math.floor(relativeX))) * img.getBlue(Math.floor(relativeX), Math.ceil(relativeY)) +
-        (relativeX - Math.floor(relativeX)) * img.getBlue(Math.ceil(relativeX), Math.ceil(relativeY))
-      result = (1 - (relativeX - Math.floor(relativeX))) * deltaX + (relativeX - Math.floor(relativeX)) * deltaY
-      next.setBlue(x, y, result)
-      relativeX = (x / targetWidth) * (img.width - 1)
-      deltaX = (1 - (relativeX - Math.floor(relativeX))) * img.getGreen(Math.floor(relativeX), Math.floor(relativeY)) +
-        (relativeX - Math.floor(relativeX)) * img.getGreen(Math.ceil(relativeX), Math.floor(relativeY))
-      deltaY = (1 - (relativeX - Math.floor(relativeX))) * img.getGreen(Math.floor(relativeX), Math.ceil(relativeY)) +
-        (relativeX - Math.floor(relativeX)) * img.getGreen(Math.ceil(relativeX), Math.ceil(relativeY))
-      result = (1 - (relativeX - Math.floor(relativeX))) * deltaX + (relativeX - Math.floor(relativeX)) * deltaY
-      next.setGreen(x, y, result)
+      const relativePixelA = img.getPixel(Math.floor(relativeX), Math.floor(relativeY))
+      const relativePixelB = img.getPixel(Math.ceil(relativeX), Math.floor(relativeY))
+      const relativePixelC = img.getPixel(Math.floor(relativeX), Math.ceil(relativeY))
+      const relativePixelD = img.getPixel(Math.ceil(relativeX), Math.ceil(relativeY))
+      const relativeXDecimals = relativeX - Math.floor(relativeX)
+      const relativeXDecimalsComplement = 1 - relativeXDecimals
+      // Red
+      const redDeltaX = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelA.getRed(), relativePixelB.getRed())
+      const redDeltaY = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelC.getRed(), relativePixelD.getRed())
+      const nextRed = relativeXDecimalsComplement * redDeltaX + relativeXDecimals * redDeltaY
+      next.setRed(x, y, nextRed)
+      // Green
+      const greenDeltaX = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelA.getGreen(), relativePixelB.getGreen())
+      const greenDeltaY = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelC.getGreen(), relativePixelD.getGreen())
+      const nextGreen = relativeXDecimalsComplement * greenDeltaX + relativeXDecimals * greenDeltaY
+      next.setGreen(x, y, nextGreen)
+      // Blue
+      const blueDeltaX = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelA.getBlue(), relativePixelB.getBlue())
+      const blueDeltaY = getInterpolatedComponent(relativeXDecimals, relativeXDecimalsComplement, relativePixelC.getBlue(), relativePixelD.getBlue())
+      const nextBlue = relativeXDecimalsComplement * blueDeltaX + relativeXDecimals * blueDeltaY
+      next.setBlue(x, y, nextBlue)
     }
   }
 
@@ -89,6 +83,10 @@ function interpolation (targetWidth, targetHeight) {
     onEndLoading()
     onImageResampled(next)
   }, 1000)
+}
+
+function getInterpolatedComponent (relativeDecimals, relativeDecimalsComplement, componentA, componentB) {
+  return relativeDecimalsComplement * componentA + relativeDecimals * componentB
 }
 
 function onChangeMethod () {
