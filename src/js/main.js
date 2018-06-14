@@ -24,11 +24,7 @@ function resamplePicture (e) {
   e.preventDefault()
   let width = widthInput.value || img.width
   let height = heightInput.value || img.height
-  if (selectedMethod === KNN) {
-    kNearestNeighbor(width, height)
-  } else if (selectedMethod === INTERPOLATION) {
-    interpolation(width, height)
-  }
+  selectedMethod === KNN ? kNearestNeighbor(width, height) : interpolation(width, height)
 }
 
 function kNearestNeighbor (targetWidth, targetHeight) {
@@ -37,9 +33,9 @@ function kNearestNeighbor (targetWidth, targetHeight) {
   let relativeX = 0
   let relativeY = 0
   for (let y = 0; y < targetHeight; y++) {
-    relativeY = Math.floor((y / targetHeight) * img.height)
+    relativeY = Math.round((y / targetHeight) * (img.height - 1))
     for (let x = 0; x < targetWidth; x++) {
-      relativeX = Math.floor((x / targetWidth) * img.width)
+      relativeX = Math.round((x / targetWidth) * (img.width - 1))
       next.setPixel(x, y, img.getPixel(relativeX, relativeY))
     }
   }
@@ -50,10 +46,10 @@ function kNearestNeighbor (targetWidth, targetHeight) {
   }, 1000)
 }
 
-function interpolation (width, height) {
+function interpolation (targetWidth, targetHeight) {
   onStartLoading()
-  const next = new SimpleImage(width, height)
-  //
+  const next = new SimpleImage(targetWidth, targetHeight)
+
   setTimeout(function () {
     onEndLoading()
     onImageResampled(next)
