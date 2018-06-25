@@ -24,10 +24,10 @@ function resamplePicture (e) {
   e.preventDefault()
   let width = widthInput.value || img.width
   let height = heightInput.value || img.height
-  selectedMethod === KNN ? kNearestNeighbor(width, height) : interpolation(width, height)
+  selectedMethod === NEAREST_NEIGHBOR ? nearestNeighbor(width, height) : interpolation(width, height)
 }
 
-function kNearestNeighbor (targetWidth, targetHeight) {
+function nearestNeighbor (targetWidth, targetHeight) {
   onStartLoading()
   const next = new SimpleImage(targetWidth, targetHeight)
   let relativeX = 0
@@ -264,7 +264,7 @@ let original = null
 
 // Method
 
-const KNN = '1'
+const NEAREST_NEIGHBOR = '1'
 
 const INTERPOLATION = '2'
 
